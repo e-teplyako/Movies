@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Movies</string>
+    <string name="button_show_results">Show results</string>
+</resources>
