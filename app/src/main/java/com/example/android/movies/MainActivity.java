@@ -1,8 +1,12 @@
 package com.example.android.movies;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,9 +22,14 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageButton mSearhIButton;
-    EditText mQueryET;
-    TextView mResultsTV;
+    private ImageButton mSearhIButton;
+    private EditText mQueryET;
+    private RecyclerView mSearchRV;
+    private SearchAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +50,14 @@ public class MainActivity extends AppCompatActivity {
         mSearhIButton = (ImageButton) findViewById(R.id.ib_search);
         mSearhIButton.setOnClickListener(showResultsListener);
 
-        mResultsTV = (TextView) findViewById(R.id.tv_results);
         mQueryET = (EditText) findViewById(R.id.et_search);
 
+        mSearchRV = (RecyclerView) findViewById(R.id.rv_search);
+        mSearchRV.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mSearchRV.setLayoutManager(mLayoutManager);
+        mAdapter = new SearchAdapter(null, getApplicationContext());
+        mSearchRV.setAdapter(mAdapter);
     }
 
 
@@ -74,15 +88,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Movie> movies) {
             if (movies == null || movies.isEmpty()) {
-                mResultsTV.setText("No results found");
+               // mResultsTV.setText("No results found");
                 return;
             }
-
-            String data = "";
-            for (int i = 0; i < movies.size(); i++) {
-                data += movies.get(i).toString();
-            }
-            mResultsTV.setText(data);
+            mAdapter.setMovies(movies);
         }
     }
 

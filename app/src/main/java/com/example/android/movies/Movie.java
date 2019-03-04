@@ -19,6 +19,9 @@ public class Movie {
     public String getId() {
         return mId;
     }
+    public String getTitle() {return mTitle;}
+    public String getPosterUrl() {return mPosterUrl;}
+    public String getYear() {return mYear;}
 
     @Override
     public String toString() {
