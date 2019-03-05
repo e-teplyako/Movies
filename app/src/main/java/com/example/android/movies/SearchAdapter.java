@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     @Override
     public void onBindViewHolder(@NonNull SearchViewHolder viewHolder, int i) {
         Movie movie = mMovies.get(i);
-        viewHolder.mTitleTextView.setText(movie.getTitle() + " (" + movie.getYear() + ")");
+        viewHolder.mTitleTextView.setText(movie.getTitle());
+        viewHolder.mYearTextView.setText(movie.getYear());
+        String mediaType = movie.getType();
+        if (mediaType.equals("movie")) {
+            viewHolder.mTypeImageView.setImageResource(R.drawable.movie_art);
+        }
+        else if (mediaType.equals("series")){
+            viewHolder.mTypeImageView.setImageResource(R.drawable.tv_art);
+        }
+        else if (mediaType.equals("game")) {
+            viewHolder.mTypeImageView.setImageResource(R.drawable.game_art);
+        }
 //        IMAGE NOT IMPLEMENTED YET
     }
 
@@ -63,12 +75,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
         public TextView mTitleTextView;
         public ImageView mPosterImageView;
+        public TextView mYearTextView;
+        public ImageView mTypeImageView;
 
         private SearchRecyclerViewClickListener mListener;
 
         public SearchViewHolder(@NonNull View itemView, SearchRecyclerViewClickListener listener) {
             super(itemView);
             mTitleTextView = itemView.findViewById(R.id.tv_title);
+            mYearTextView = itemView.findViewById(R.id.tv_year);
+            mTypeImageView = itemView.findViewById(R.id.iv_type);
             mContext = itemView.getContext();
             mListener = listener;
             itemView.setOnClickListener(this);

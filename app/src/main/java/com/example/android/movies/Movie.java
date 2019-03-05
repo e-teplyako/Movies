@@ -22,6 +22,7 @@ public class Movie {
     public String getTitle() {return mTitle;}
     public String getPosterUrl() {return mPosterUrl;}
     public String getYear() {return mYear;}
+    public String getType() {return mType;}
 
     @Override
     public String toString() {
