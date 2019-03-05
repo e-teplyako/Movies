@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -20,9 +21,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     private ArrayList<Movie> mMovies = new ArrayList<>();
     private Context mContext;
 
-    public SearchAdapter (ArrayList<Movie> movies, Context context) {
+    private SearchRecyclerViewClickListener mListener;
+
+    public SearchAdapter (ArrayList<Movie> movies, Context context, SearchRecyclerViewClickListener listener) {
         mMovies = movies;
         mContext = context;
+        mListener = listener;
     }
 
     public void setMovies(ArrayList<Movie> movies){
@@ -34,7 +38,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     @Override
     public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_item, viewGroup,false);
-        SearchViewHolder viewHolder = new SearchViewHolder(view);
+        SearchViewHolder viewHolder = new SearchViewHolder(view, mListener);
         return viewHolder;
     }
 
@@ -53,17 +57,34 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         return mMovies.size();
     }
 
-    public class SearchViewHolder extends RecyclerView.ViewHolder {
+    public class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mContext;
 
         public TextView mTitleTextView;
         public ImageView mPosterImageView;
 
-        public SearchViewHolder(@NonNull View itemView) {
+        private SearchRecyclerViewClickListener mListener;
+
+        public SearchViewHolder(@NonNull View itemView, SearchRecyclerViewClickListener listener) {
             super(itemView);
             mTitleTextView = itemView.findViewById(R.id.tv_title);
             mContext = itemView.getContext();
+            mListener = listener;
+            itemView.setOnClickListener(this);
         }
+
+
+
+        @Override
+        public void onClick(View view) {
+            Movie movie = mMovies.get(getAdapterPosition());
+            String id = movie.getId();
+            mListener.OnClick(view, getAdapterPosition(), id);
+        }
+    }
+
+    public interface SearchRecyclerViewClickListener {
+        void OnClick (View view, int position, String imdbId);
     }
 }

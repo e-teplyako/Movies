@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.movies.Utilities.JSONUtilities;
 import com.example.android.movies.Utilities.NetworkUtilities;
@@ -52,11 +53,26 @@ public class MainActivity extends AppCompatActivity {
 
         mQueryET = (EditText) findViewById(R.id.et_search);
 
+        setupRecyclerView();
+    }
+
+
+//Sets up recycler view with adapter and listener
+    private void setupRecyclerView() {
+        SearchAdapter.SearchRecyclerViewClickListener listener = new SearchAdapter.SearchRecyclerViewClickListener() {
+            @Override
+            public void OnClick(View view, int position, String id) {
+                Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                intent.putExtra(Intent.EXTRA_TEXT, id);
+                startActivity(intent);
+            }
+        };
+
         mSearchRV = (RecyclerView) findViewById(R.id.rv_search);
         mSearchRV.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mSearchRV.setLayoutManager(mLayoutManager);
-        mAdapter = new SearchAdapter(null, getApplicationContext());
+        mAdapter = new SearchAdapter(null, getApplicationContext(), listener);
         mSearchRV.setAdapter(mAdapter);
     }
 
