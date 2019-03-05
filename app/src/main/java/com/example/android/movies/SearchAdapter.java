@@ -1,6 +1,9 @@
 package com.example.android.movies;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -58,6 +66,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         else if (mediaType.equals("game")) {
             viewHolder.mTypeImageView.setImageResource(R.drawable.game_art);
         }
+        String url = movie.getPosterUrl();
+        new DownloadImageTask((viewHolder.mPosterImageView)).execute(url);
 //        IMAGE NOT IMPLEMENTED YET
     }
 
@@ -85,6 +95,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             mTitleTextView = itemView.findViewById(R.id.tv_title);
             mYearTextView = itemView.findViewById(R.id.tv_year);
             mTypeImageView = itemView.findViewById(R.id.iv_type);
+            mPosterImageView = itemView.findViewById(R.id.iv_poster);
             mContext = itemView.getContext();
             mListener = listener;
             itemView.setOnClickListener(this);
@@ -102,5 +113,38 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
     public interface SearchRecyclerViewClickListener {
         void OnClick (View view, int position, String imdbId);
+    }
+
+    public class DownloadImageTask extends AsyncTask<String, Void, Bitmap>{
+
+        private ImageView mPosterView;
+
+        public DownloadImageTask(ImageView imageView) {
+            mPosterView = imageView;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... urls) {
+            String url = urls[0];
+            Bitmap poster = null;
+            try {
+                InputStream in = new URL(url).openStream();
+                poster = BitmapFactory.decodeStream(in);
+            }
+            catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            return poster;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            if (result != null) {
+                mPosterView.setImageBitmap(result);
+            }
+        }
     }
 }
