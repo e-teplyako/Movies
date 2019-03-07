@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.movies.Utilities.DownloadImageTask;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -68,7 +70,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         }
         String url = movie.getPosterUrl();
         new DownloadImageTask((viewHolder.mPosterImageView)).execute(url);
-//        IMAGE NOT IMPLEMENTED YET
     }
 
     @Override
@@ -115,36 +116,4 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         void OnClick (View view, int position, String imdbId);
     }
 
-    public class DownloadImageTask extends AsyncTask<String, Void, Bitmap>{
-
-        private ImageView mPosterView;
-
-        public DownloadImageTask(ImageView imageView) {
-            mPosterView = imageView;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... urls) {
-            String url = urls[0];
-            Bitmap poster = null;
-            try {
-                InputStream in = new URL(url).openStream();
-                poster = BitmapFactory.decodeStream(in);
-            }
-            catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-            return poster;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            if (result != null) {
-                mPosterView.setImageBitmap(result);
-            }
-        }
-    }
 }

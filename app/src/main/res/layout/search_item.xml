@@ -54,7 +54,6 @@
         android:layout_height="25dp"
         android:tint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="@+id/tv_year"
-        app:layout_constraintEnd_toEndOf="@+id/tv_title"
-        app:srcCompat="@drawable/movie_art" />
+        app:layout_constraintEnd_toEndOf="@+id/tv_title" />
 
 </android.support.constraint.ConstraintLayout>

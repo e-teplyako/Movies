@@ -1,4 +1,25 @@
 <resources>
     <string name="app_name">Movies</string>
     <string name="button_show_results">Show results</string>
+
+    <!--Errors-->
+    <string name="error_no_results">No results found.</string>
+    <string name="error_failed_retrieve">Failed to retrieve data.</string>
+
+    <!--UI labels-->
+    <string name="rated_label">Rated:</string>
+    <string name="released_label">Released:</string>
+    <string name="runtime_label">Runtime:</string>
+    <string name="genre_label">Genre:</string>
+    <string name="director_label">Director:</string>
+    <string name="writer_label">Writers:</string>
+    <string name="language_label">Language:</string>
+    <string name="actors_label">Actors:</string>
+    <string name="country_label">Country:</string>
+    <string name="awards_label">Awards:</string>
+    <string name="plot_label">Plot:</string>
+    <string name="scores_label">Scores</string>
+    <string name="rotten_label">Rotten Tomatoes:</string>
+    <string name="imdb_label">Imdb:</string>
+    <string name="metascore_label">Metascore:</string>
 </resources>

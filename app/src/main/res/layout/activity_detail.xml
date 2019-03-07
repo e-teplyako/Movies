@@ -1,9 +1,371 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".DetailActivity">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</android.support.constraint.ConstraintLayout>
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="32dp"
+            tools:context=".DetailActivity">
+
+            <TextView
+                android:id="@+id/error_label"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:text="@string/error_failed_retrieve"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+
+
+            <ImageView
+                android:id="@+id/poster_image"
+                android:layout_width="162dp"
+                android:layout_height="246dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/imageview_border"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/title_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:fontFamily="open-sans"
+                android:textColor="@android:color/black"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/poster_image"
+                app:layout_constraintTop_toTopOf="@+id/poster_image"
+                tools:text="Matrix (1999)" />
+
+            <TextView
+                android:id="@+id/rated_label"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/rated_label"
+                app:layout_constraintStart_toStartOf="@+id/title_value"
+                app:layout_constraintTop_toBottomOf="@+id/title_value" />
+
+            <TextView
+                android:id="@+id/rated_value"
+                style="@style/ItemStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="@dimen/value_tv_margin_left"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="@dimen/value_tv_margin_start"
+                app:layout_constraintBaseline_toBaselineOf="@+id/rated_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/rated_label"
+                tools:text="PG-13" />
+
+            <TextView
+                android:id="@+id/runtime_label"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:text="@string/runtime_label"
+                app:layout_constraintStart_toStartOf="@+id/released_label"
+                app:layout_constraintTop_toBottomOf="@+id/released_value" />
+
+            <TextView
+                android:id="@+id/released_label"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/released_label"
+                app:layout_constraintStart_toStartOf="@+id/rated_label"
+                app:layout_constraintTop_toBottomOf="@+id/rated_value" />
+
+            <TextView
+                android:id="@+id/genre_label"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/genre_label"
+                app:layout_constraintStart_toStartOf="@+id/runtime_label"
+                app:layout_constraintTop_toBottomOf="@+id/runtime_value" />
+
+            <TextView
+                android:id="@+id/director_label"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/director_label"
+                app:layout_constraintStart_toStartOf="@+id/genre_label"
+                app:layout_constraintTop_toBottomOf="@+id/genre_value" />
+
+            <TextView
+                android:id="@+id/writer_label"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="@string/writer_label"
+                app:layout_constraintStart_toStartOf="@+id/director_label"
+                app:layout_constraintTop_toBottomOf="@+id/director_value" />
+
+            <TextView
+                android:id="@+id/language_label"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/language_label"
+                app:layout_constraintStart_toStartOf="@+id/actors_label"
+                app:layout_constraintTop_toBottomOf="@+id/actors_value" />
+
+            <TextView
+                android:id="@+id/actors_label"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/actors_label"
+                app:layout_constraintStart_toStartOf="@+id/writer_label"
+                app:layout_constraintTop_toBottomOf="@+id/writer_value" />
+
+            <TextView
+                android:id="@+id/country_label"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/country_label"
+                app:layout_constraintStart_toStartOf="@+id/language_label"
+                app:layout_constraintTop_toBottomOf="@+id/language_value" />
+
+            <TextView
+                android:id="@+id/released_value"
+                style="@style/ItemStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/released_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/released_label"
+                tools:text="31 Mar 1999" />
+
+            <TextView
+                android:id="@+id/runtime_value"
+                style="@style/ItemStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/runtime_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/runtime_label"
+                tools:text="136 min" />
+
+            <TextView
+                android:id="@+id/genre_value"
+                style="@style/ItemStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/genre_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/genre_label"
+                tools:text="Action, Sci-fi, Drama, Fantasy" />
+
+            <TextView
+                android:id="@+id/director_value"
+                style="@style/ItemStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/director_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/director_label"
+                tools:text="Lana Wachowski, Lilly Wachowski" />
+
+            <TextView
+                android:id="@+id/writer_value"
+                style="@style/ItemStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/writer_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/writer_label"
+                tools:text="Lana Wachowski" />
+
+            <TextView
+                android:id="@+id/actors_value"
+                style="@style/ItemStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/actors_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/actors_label"
+                tools:text="Keanu Reeves, Laurence Fishburne, Carrie-Ann Moss" />
+
+            <TextView
+                android:id="@+id/language_value"
+                style="@style/ItemStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/language_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/language_label"
+                tools:text="English" />
+
+            <TextView
+                android:id="@+id/country_value"
+                style="@style/ItemStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/country_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/country_label"
+                tools:text="USA, France, Russia, Belgium" />
+
+            <TextView
+                android:id="@+id/plot_label"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/plot_label"
+                app:layout_constraintStart_toStartOf="@+id/poster_image"
+                app:layout_constraintTop_toBottomOf="@+id/country_value" />
+
+            <TextView
+                android:id="@+id/plot_value"
+                style="@style/ItemStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/poster_image"
+                app:layout_constraintTop_toBottomOf="@+id/plot_label"
+                tools:text="A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers." />
+
+            <TextView
+                android:id="@+id/scores_label"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/scores_label"
+                app:layout_constraintStart_toStartOf="@+id/plot_value"
+                app:layout_constraintTop_toBottomOf="@+id/plot_value" />
+
+            <TextView
+                android:id="@+id/rotten_label"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/rotten_label"
+                app:layout_constraintStart_toStartOf="@+id/scores_label"
+                app:layout_constraintTop_toBottomOf="@+id/scores_label" />
+
+            <TextView
+                android:id="@+id/imdb_label"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/imdb_label"
+                app:layout_constraintStart_toStartOf="@+id/rotten_label"
+                app:layout_constraintTop_toBottomOf="@+id/rotten_label" />
+
+            <TextView
+                android:id="@+id/metascore_label"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/metascore_label"
+                app:layout_constraintStart_toStartOf="@+id/imdb_label"
+                app:layout_constraintTop_toBottomOf="@+id/imdb_label" />
+
+            <TextView
+                android:id="@+id/rotten_value"
+                style="@style/ItemStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/rotten_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/rotten_label"
+                tools:text="88%" />
+
+            <TextView
+                android:id="@+id/imdb_value"
+                style="@style/ItemStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/imdb_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imdb_label"
+                tools:text="7.5" />
+
+            <TextView
+                android:id="@+id/metascore_value"
+                style="@style/ItemStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/metascore_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/metascore_label"
+                tools:text="7.5" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</layout>
