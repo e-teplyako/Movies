@@ -13,13 +13,11 @@ import java.util.ArrayList;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
     private ArrayList<Movie> _movies;
-    private Context _context;
 
     private SearchRecyclerViewClickListener _listener;
 
-    public SearchAdapter (ArrayList<Movie> movies, Context context, SearchRecyclerViewClickListener listener) {
+    public SearchAdapter (ArrayList<Movie> movies, SearchRecyclerViewClickListener listener) {
         _movies = movies;
-        _context = context;
         _listener = listener;
     }
 
