@@ -1,33 +1,30 @@
 package com.example.android.movies;
-
-import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.PersistableBundle;
 import android.os.StrictMode;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
+import java.util.List;
 
-import com.example.android.movies.Utilities.JSONUtilities;
-import com.example.android.movies.Utilities.NetworkUtilities;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<List<Movie>> {
 	private static final String STATE_QUERY = "query";
+	public static final int SEARCH_LOADER = 22;
+	public static final String QUERY = "url";
     private RecyclerView _searchRV;
     private SearchAdapter _adapter;
     private RecyclerView.LayoutManager _layoutManager;
@@ -40,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setupRecyclerView();
+		//getLoaderManager().initLoader(SEARCH_LOADER, null, this);
     }
 
     private void setupRecyclerView() {
@@ -74,7 +72,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 		_searchView.setOnQueryTextListener(this);
 		_searchView.setQueryHint("Search a movie");
 		_searchView.setSubmitButtonEnabled(true);
-		_searchView.setIconifiedByDefault(true);
+		_searchView.setIconified(false);
+		_searchView.setIconifiedByDefault(false);
 	}
 
 	@Override
@@ -92,7 +91,16 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 	}
 
 	private void loadShowingsData(String query){
-        new FetchSearchData().execute(query);
+		Bundle queryBundle = new Bundle();
+		queryBundle.putString(QUERY, query);
+		LoaderManager loaderManager = getSupportLoaderManager();
+		Loader<String> loader = loaderManager.getLoader(SEARCH_LOADER);
+		if(loader == null){
+			loaderManager.initLoader(SEARCH_LOADER, queryBundle, this);
+		}
+		else {
+			loaderManager.restartLoader(SEARCH_LOADER, queryBundle, this);
+		}
     }
 
 	@Override
@@ -114,35 +122,24 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 		return false;
 	}
 
-	public class FetchSearchData extends AsyncTask<String, Void, ArrayList<Movie>>{
+	@NonNull
+	@Override
+	public Loader<List<Movie>> onCreateLoader(int id, @Nullable final Bundle args) {
+    	String query = "";
+    	if (args != null) {
+			if (args.getCharSequence(QUERY) != null)
+				query = (String) args.getCharSequence(QUERY);
+		}
+		return new MovieListLoader(this, query);
+	}
 
-        @Override
-        protected ArrayList<Movie> doInBackground(String... args) {
-            String query = args[0];
-            if (query.isEmpty()) {
-                return null;
-            }
-            URL queryURL = NetworkUtilities.buildSearchUrlWithQuery(query);
+	@Override
+	public void onLoadFinished(@NonNull Loader<List<Movie>> loader, List<Movie> movies) {
+		_adapter.setMovies(movies);
+	}
 
-            try {
-                String jsonResponse = NetworkUtilities.getResponseFromHttpUrl(queryURL);
-                return JSONUtilities.parseOmdbSearchJSON(jsonResponse);
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
+	@Override
+	public void onLoaderReset(@NonNull Loader<List<Movie>> loader) {
 
-        @Override
-        protected void onPostExecute(ArrayList<Movie> movies) {
-            if (movies == null || movies.isEmpty()) {
-               // mResultsTV.setText("No results found");
-                return;
-            }
-            _adapter.setMovies(movies);
-        }
-    }
-
-
+	}
 }

@@ -10,9 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.android.movies.Utilities.DownloadImageTask;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
-    private ArrayList<Movie> _movies;
+    private List<Movie> _movies;
 
     private SearchRecyclerViewClickListener _listener;
 
@@ -21,7 +22,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         _listener = listener;
     }
 
-    public void setMovies(ArrayList<Movie> movies){
+    public void setMovies(List<Movie> movies){
         _movies = movies;
         notifyDataSetChanged();
     }

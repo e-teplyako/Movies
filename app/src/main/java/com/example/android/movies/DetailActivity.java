@@ -141,5 +141,4 @@ public class DetailActivity extends AppCompatActivity {
             displayData(data);
         }
     }
-
 }
