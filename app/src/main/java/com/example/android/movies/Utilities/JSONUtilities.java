@@ -11,13 +11,6 @@ import java.util.ArrayList;
 
 public class JSONUtilities {
 
-    public static final String TEST_JSON_STRING = "{\"Search\":[" +
-            "{\"Title\":\"The Matrix\",\"Year\":\"1999\",\"imdbID\":\"tt0133093\",\"Type\":\"movie\",\"Poster\":\"https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg\"}," +
-            "{\"Title\":\"The Matrix Reloaded\",\"Year\":\"2003\",\"imdbID\":\"tt0234215\",\"Type\":\"movie\",\"Poster\":\"https://m.media-amazon.com/images/M/MV5BODE0MzZhZTgtYzkwYi00YmI5LThlZWYtOWRmNWE5ODk0NzMxXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg\"}," +
-            "{\"Title\":\"The Matrix Revolutions\",\"Year\":\"2003\",\"imdbID\":\"tt0242653\",\"Type\":\"movie\",\"Poster\":\"https://m.media-amazon.com/images/M/MV5BNzNlZTZjMDctZjYwNi00NzljLWIwN2QtZWZmYmJiYzQ0MTk2XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg\"}]," +
-            "\"totalResults\":\"87\",\"Response\":\"True\"}";
-
-//parses JSON string in object MovieDetailsData
     public static MovieDetailsData parseOmdbDetailsJSON (String JSONString) {
         MovieDetailsData movieDetailsData = new MovieDetailsData();
 
@@ -34,28 +27,28 @@ public class JSONUtilities {
                     JSONObject ratingObject = ratingsJsonArray.getJSONObject(i);
                     String source = ratingObject.getString("Source");
                     String value = ratingObject.getString("Value");
-                    movieDetailsData.mRatings.put(source, value);
+                    movieDetailsData.Ratings.put(source, value);
                 }
             }
-            movieDetailsData.mTitle = jsonRootObject.getString("Title");
-            movieDetailsData.mYear = jsonRootObject.getString("Year");
-            movieDetailsData.mRated = jsonRootObject.getString("Rated");
-            movieDetailsData.mReleased = jsonRootObject.getString("Released");
-            movieDetailsData.mRuntime = jsonRootObject.getString("Runtime");
-            movieDetailsData.mGenre = jsonRootObject.getString("Genre");
-            movieDetailsData.mDirector = jsonRootObject.getString("Director");
-            movieDetailsData.mWriter = jsonRootObject.getString("Writer");
-            movieDetailsData.mActors = jsonRootObject.getString("Actors");
-            movieDetailsData.mPlot = jsonRootObject.getString("Plot");
-            movieDetailsData.mLanguage = jsonRootObject.getString("Language");
-            movieDetailsData.mCountry = jsonRootObject.getString("Country");
-            movieDetailsData.mAwards = jsonRootObject.getString("Awards");
-            movieDetailsData.mPosterUrl = jsonRootObject.getString("Poster");
-            movieDetailsData.mMetascore = jsonRootObject.getString("Metascore");
-            movieDetailsData.mImdbRating = jsonRootObject.getString("imdbRating");
-            movieDetailsData.mImdbVotes = jsonRootObject.getString("imdbVotes");
-            movieDetailsData.mId = jsonRootObject.getString("imdbID");
-            movieDetailsData.mType = jsonRootObject.getString("Type");
+            movieDetailsData.Title = jsonRootObject.getString("Title");
+            movieDetailsData.Year = jsonRootObject.getString("Year");
+            movieDetailsData.Rated = jsonRootObject.getString("Rated");
+            movieDetailsData.Released = jsonRootObject.getString("Released");
+            movieDetailsData.Runtime = jsonRootObject.getString("Runtime");
+            movieDetailsData.Genre = jsonRootObject.getString("Genre");
+            movieDetailsData.Director = jsonRootObject.getString("Director");
+            movieDetailsData.Writer = jsonRootObject.getString("Writer");
+            movieDetailsData.Actors = jsonRootObject.getString("Actors");
+            movieDetailsData.Plot = jsonRootObject.getString("Plot");
+            movieDetailsData.Language = jsonRootObject.getString("Language");
+            movieDetailsData.Country = jsonRootObject.getString("Country");
+            movieDetailsData.Awards = jsonRootObject.getString("Awards");
+            movieDetailsData.PosterUrl = jsonRootObject.getString("Poster");
+            movieDetailsData.Metascore = jsonRootObject.getString("Metascore");
+            movieDetailsData.ImdbRating = jsonRootObject.getString("imdbRating");
+            movieDetailsData.ImdbVotes = jsonRootObject.getString("imdbVotes");
+            movieDetailsData.Id = jsonRootObject.getString("imdbID");
+            movieDetailsData.Type = jsonRootObject.getString("Type");
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -64,7 +57,6 @@ public class JSONUtilities {
         return movieDetailsData;
     }
 
-//    parses JSON string into array of movies
     public static ArrayList<Movie> parseOmdbSearchJSON(String JSONString){
         ArrayList<Movie> movies = new ArrayList<>();
 

@@ -1,15 +1,14 @@
 package com.example.android.movies;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.os.AsyncTask;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 import android.os.Bundle;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.example.android.movies.Utilities.DownloadImageTask;
 import com.example.android.movies.Utilities.JSONUtilities;
 import com.example.android.movies.Utilities.NetworkUtilities;
@@ -20,18 +19,31 @@ import java.net.URL;
 
 public class DetailActivity extends AppCompatActivity {
 
-    ActivityDetailBinding mBinding;
+    ActivityDetailBinding _binding;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
+        _binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        _binding.plotHider.setVisibility(View.VISIBLE);
+        _binding.plotHider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                _binding.plotHider.setVisibility(View.GONE);
+            }
+        });
 
+        _binding.plotValue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                _binding.plotHider.setVisibility(View.VISIBLE);
+            }
+        });
 
         Intent intent = getIntent();
         if (intent.hasExtra(Intent.EXTRA_TEXT)) {
@@ -59,43 +71,43 @@ public class DetailActivity extends AppCompatActivity {
 
 
     private void displayData(MovieDetailsData data) {
-        mBinding.titleValue.setText(data.mTitle + " (" + data.mYear + ")");
-        mBinding.ratedValue.setText(data.mRated);
-        mBinding.releasedValue.setText(data.mReleased);
-        mBinding.runtimeValue.setText(data.mRuntime);
-        mBinding.genreValue.setText(data.mGenre);
-        mBinding.directorValue.setText(data.mDirector);
-        mBinding.writerValue.setText(data.mWriter);
-        mBinding.actorsValue.setText(data.mActors);
-        mBinding.languageValue.setText(data.mLanguage);
-        mBinding.countryValue.setText(data.mCountry);
-        mBinding.plotValue.setText(data.mPlot);
+        _binding.titleValue.setText(data.Title + " (" + data.Year + ")");
+        _binding.ratedValue.setText(data.Rated);
+        _binding.releasedValue.setText(data.Released);
+        _binding.runtimeValue.setText(data.Runtime);
+        _binding.genreValue.setText(data.Genre);
+        _binding.directorValue.setText(data.Director);
+        _binding.writerValue.setText(data.Writer);
+        _binding.actorsValue.setText(data.Actors);
+        _binding.languageValue.setText(data.Language);
+        _binding.countryValue.setText(data.Country);
+        _binding.plotValue.setText(data.Plot);
 
-        if (data.mRatings.containsKey(data.RT_RATING_KEY)){
-            mBinding.rottenValue.setText(data.mRatings.getAsString(data.RT_RATING_KEY));
+        if (data.Ratings.containsKey(data.RT_RATING_KEY)){
+            _binding.rottenValue.setText(data.Ratings.getAsString(data.RT_RATING_KEY));
         }
         else {
-            mBinding.rottenValue.setVisibility(View.GONE);
-            mBinding.rottenLabel.setVisibility(View.GONE);
+            _binding.rottenValue.setVisibility(View.GONE);
+            _binding.rottenLabel.setVisibility(View.GONE);
         }
 
-        if (data.mRatings.containsKey(data.IMDB_RATING_KEY)) {
-            mBinding.imdbValue.setText(data.mImdbRating + " (" + data.mImdbVotes + " votes)");
+        if (data.Ratings.containsKey(data.IMDB_RATING_KEY)) {
+            _binding.imdbValue.setText(data.ImdbRating + " (" + data.ImdbVotes + " votes)");
         }
         else {
-            mBinding.imdbValue.setVisibility(View.GONE);
-            mBinding.imdbLabel.setVisibility(View.GONE);
+            _binding.imdbValue.setVisibility(View.GONE);
+            _binding.imdbLabel.setVisibility(View.GONE);
         }
 
-        if (data.mRatings.containsKey(data.METACRITIC_RATING_KEY)) {
-            mBinding.metascoreValue.setText(data.mMetascore);
+        if (data.Ratings.containsKey(data.METACRITIC_RATING_KEY)) {
+            _binding.metascoreValue.setText(data.Metascore);
         }
         else {
-            mBinding.metascoreValue.setVisibility(View.GONE);
-            mBinding.metascoreLabel.setVisibility(View.GONE);
+            _binding.metascoreValue.setVisibility(View.GONE);
+            _binding.metascoreLabel.setVisibility(View.GONE);
         }
 
-        new DownloadImageTask(mBinding.posterImage).execute(data.mPosterUrl);
+        new DownloadImageTask(_binding.posterImage).execute(data.PosterUrl);
     }
 
 
@@ -122,10 +134,10 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(MovieDetailsData data) {
             if (data == null) {
-                mBinding.errorLabel.setVisibility(View.VISIBLE);
+                _binding.errorLabel.setVisibility(View.VISIBLE);
                 return;
             }
-            mBinding.errorLabel.setVisibility(View.GONE);
+            _binding.errorLabel.setVisibility(View.GONE);
             displayData(data);
         }
     }

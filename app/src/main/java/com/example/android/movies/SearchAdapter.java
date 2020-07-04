@@ -1,47 +1,30 @@
 package com.example.android.movies;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.android.movies.Utilities.DownloadImageTask;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
+    private ArrayList<Movie> _movies;
+    private Context _context;
 
-    private ArrayList<Movie> mMovies = new ArrayList<>();
-    private Context mContext;
-
-    private SearchRecyclerViewClickListener mListener;
+    private SearchRecyclerViewClickListener _listener;
 
     public SearchAdapter (ArrayList<Movie> movies, Context context, SearchRecyclerViewClickListener listener) {
-        mMovies = movies;
-        mContext = context;
-        mListener = listener;
+        _movies = movies;
+        _context = context;
+        _listener = listener;
     }
 
     public void setMovies(ArrayList<Movie> movies){
-        mMovies = movies;
+        _movies = movies;
         notifyDataSetChanged();
     }
 
@@ -49,66 +32,67 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     @Override
     public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_item, viewGroup,false);
-        SearchViewHolder viewHolder = new SearchViewHolder(view, mListener);
+        SearchViewHolder viewHolder = new SearchViewHolder(view, _listener);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull SearchViewHolder viewHolder, int i) {
-        Movie movie = mMovies.get(i);
-        viewHolder.mTitleTextView.setText(movie.getTitle());
-        viewHolder.mYearTextView.setText(movie.getYear());
-        String mediaType = movie.getType();
-        if (mediaType.equals("movie")) {
-            viewHolder.mTypeImageView.setImageResource(R.drawable.movie_art);
-        }
-        else if (mediaType.equals("series")){
-            viewHolder.mTypeImageView.setImageResource(R.drawable.tv_art);
-        }
-        else if (mediaType.equals("game")) {
-            viewHolder.mTypeImageView.setImageResource(R.drawable.game_art);
-        }
-        String url = movie.getPosterUrl();
-        new DownloadImageTask((viewHolder.mPosterImageView)).execute(url);
+        viewHolder.bind(_movies.get(i));
     }
 
     @Override
     public int getItemCount() {
-        if (mMovies == null){
+        if (_movies == null){
             return 0;
         }
-        return mMovies.size();
+        return _movies.size();
     }
 
     public class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private Context mContext;
+        private Context _context;
 
-        public TextView mTitleTextView;
-        public ImageView mPosterImageView;
-        public TextView mYearTextView;
-        public ImageView mTypeImageView;
+        public TextView _titleTextView;
+        public ImageView _posterImageView;
+        public TextView _yearTextView;
+        public ImageView _typeImageView;
 
-        private SearchRecyclerViewClickListener mListener;
+        private SearchRecyclerViewClickListener _listener;
 
         public SearchViewHolder(@NonNull View itemView, SearchRecyclerViewClickListener listener) {
             super(itemView);
-            mTitleTextView = itemView.findViewById(R.id.tv_title);
-            mYearTextView = itemView.findViewById(R.id.tv_year);
-            mTypeImageView = itemView.findViewById(R.id.iv_type);
-            mPosterImageView = itemView.findViewById(R.id.iv_poster);
-            mContext = itemView.getContext();
-            mListener = listener;
+            _titleTextView = itemView.findViewById(R.id.tv_title);
+            _yearTextView = itemView.findViewById(R.id.tv_year);
+            _typeImageView = itemView.findViewById(R.id.iv_type);
+            _posterImageView = itemView.findViewById(R.id.iv_poster);
+            _context = itemView.getContext();
+            _listener = listener;
             itemView.setOnClickListener(this);
         }
 
-
+        void bind(Movie movie) {
+            _titleTextView.setText(movie.getTitle());
+            _yearTextView.setText(movie.getYear());
+            String mediaType = movie.getType();
+            if (mediaType.equals("movie")) {
+                _typeImageView.setImageResource(R.drawable.movie_art);
+            }
+            else if (mediaType.equals("series")){
+                _typeImageView.setImageResource(R.drawable.tv_art);
+            }
+            else if (mediaType.equals("game")) {
+                _typeImageView.setImageResource(R.drawable.game_art);
+            }
+            String url = movie.getPosterUrl();
+            new DownloadImageTask((_posterImageView)).execute(url);
+        }
 
         @Override
         public void onClick(View view) {
-            Movie movie = mMovies.get(getAdapterPosition());
+            Movie movie = _movies.get(getAdapterPosition());
             String id = movie.getId();
-            mListener.OnClick(view, getAdapterPosition(), id);
+            _listener.OnClick(view, getAdapterPosition(), id);
         }
     }
 

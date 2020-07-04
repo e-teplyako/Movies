@@ -3,7 +3,6 @@ package com.example.android.movies.Utilities;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.example.android.movies.R;
@@ -28,6 +27,7 @@ public class DownloadImageTask extends AsyncTask <String, Void, Bitmap> {
         try {
             InputStream in = new URL(url).openStream();
             poster = BitmapFactory.decodeStream(in);
+            in.close();
         }
         catch (MalformedURLException e) {
             e.printStackTrace();

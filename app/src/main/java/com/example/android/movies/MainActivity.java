@@ -2,58 +2,51 @@ package com.example.android.movies;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
+import android.os.StrictMode;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-
 import com.example.android.movies.Utilities.JSONUtilities;
 import com.example.android.movies.Utilities.NetworkUtilities;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
-    private ImageButton mSearhIButton;
-    private EditText mQueryET;
-    private RecyclerView mSearchRV;
-    private SearchAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
-
-
+    private ImageButton _searchButton;
+    private EditText _queryEditText;
+    private RecyclerView _searchRV;
+    private SearchAdapter _adapter;
+    private RecyclerView.LayoutManager _layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        StrictMode.enableDefaults();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Init "show results" button and set its listener
         View.OnClickListener showResultsListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String query = mQueryET.getText().toString();
+                String query = _queryEditText.getText().toString();
                 if (!query.isEmpty()) {
-                    loadShowingsData(mQueryET.getText().toString());
+                    loadShowingsData(_queryEditText.getText().toString());
                 }
                 //else show error or smth
             }
         };
-        mSearhIButton = (ImageButton) findViewById(R.id.ib_search);
-        mSearhIButton.setOnClickListener(showResultsListener);
+        _searchButton = findViewById(R.id.ib_search);
+        _searchButton.setOnClickListener(showResultsListener);
 
-        mQueryET = (EditText) findViewById(R.id.et_search);
+        _queryEditText = findViewById(R.id.et_search);
 
         setupRecyclerView();
     }
 
-
-//Sets up recycler view with adapter and listener
     private void setupRecyclerView() {
         SearchAdapter.SearchRecyclerViewClickListener listener = new SearchAdapter.SearchRecyclerViewClickListener() {
             @Override
@@ -64,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        mSearchRV = (RecyclerView) findViewById(R.id.rv_search);
-        mSearchRV.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mSearchRV.setLayoutManager(mLayoutManager);
-        mAdapter = new SearchAdapter(null, getApplicationContext(), listener);
-        mSearchRV.setAdapter(mAdapter);
+        _searchRV = findViewById(R.id.rv_search);
+        _searchRV.setHasFixedSize(true);
+        _layoutManager = new LinearLayoutManager(this);
+        _searchRV.setLayoutManager(_layoutManager);
+        _adapter = new SearchAdapter(null, getApplicationContext(), listener);
+        _searchRV.setAdapter(_adapter);
     }
 
 
@@ -103,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                // mResultsTV.setText("No results found");
                 return;
             }
-            mAdapter.setMovies(movies);
+            _adapter.setMovies(movies);
         }
     }
 

@@ -11,12 +11,6 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class NetworkUtilities {
-
-
-    private static final String LOG_TAG = NetworkUtilities.class.getSimpleName();
-
-    public static final String TEST_OMDB_URL = "http://www.omdbapi.com/?apikey=bc58fbd4&s=Matrix&r=json";
-
     private static final String OMDB_BASE_URL = "http://www.omdbapi.com/?";
     private static final String APIKEY_KEY = "apikey";
     private static final String QUERY_KEY = "s";
@@ -42,7 +36,6 @@ public class NetworkUtilities {
         catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        Log.e(LOG_TAG, "Built uri: " + url);
         return url;
     }
 
@@ -61,19 +54,6 @@ public class NetworkUtilities {
         catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        Log.e(LOG_TAG, "Built uri: " + url);
-        return url;
-    }
-
-
-    public static URL buildTestUrl(){
-        URL url = null;
-        try {
-            url = new URL(TEST_OMDB_URL);
-        }
-        catch (MalformedURLException e){
-            e.printStackTrace();
-        }
         return url;
     }
 
@@ -86,6 +66,7 @@ public class NetworkUtilities {
             scanner.useDelimiter("\\A");
 
             boolean hasInput = scanner.hasNext();
+            in.close();
             if (hasInput) {
                 return scanner.next();
             }
