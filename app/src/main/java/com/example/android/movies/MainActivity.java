@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setupRecyclerView();
-		//getLoaderManager().initLoader(SEARCH_LOADER, null, this);
+		getSupportLoaderManager().initLoader(SEARCH_LOADER, null, this);
     }
 
     private void setupRecyclerView() {
