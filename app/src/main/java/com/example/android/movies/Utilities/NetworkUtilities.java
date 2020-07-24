@@ -58,11 +58,11 @@ public class NetworkUtilities {
     }
 
     public static String getResponseFromHttpUrl(URL url) throws IOException {
+        Log.e("NetworkUtilities", "getResponseFromHttpUrl() called");
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        InputStream in = urlConnection.getInputStream();
+        Scanner scanner = new Scanner(in);
         try {
-            InputStream in = urlConnection.getInputStream();
-
-            Scanner scanner = new Scanner(in);
             scanner.useDelimiter("\\A");
 
             boolean hasInput = scanner.hasNext();
@@ -78,6 +78,7 @@ public class NetworkUtilities {
             e.printStackTrace();
         }
         finally {
+            scanner.close();
             urlConnection.disconnect();
         }
         return null;

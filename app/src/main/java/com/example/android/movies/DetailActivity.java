@@ -1,7 +1,12 @@
 package com.example.android.movies;
 
+import android.content.Context;
 import android.content.Intent;
 import androidx.databinding.DataBindingUtil;
+
+import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import androidx.core.app.NavUtils;
 import android.os.Bundle;
@@ -9,6 +14,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
 import com.example.android.movies.Utilities.DownloadImageTask;
 import com.example.android.movies.Utilities.JSONUtilities;
 import com.example.android.movies.Utilities.NetworkUtilities;
@@ -17,7 +24,7 @@ import com.example.android.movies.databinding.ActivityDetailBinding;
 import java.io.IOException;
 import java.net.URL;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements DownloadImageTask.AsyncResponse {
 
     ActivityDetailBinding _binding;
 
@@ -45,13 +52,21 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = getIntent();
-        if (intent.hasExtra(Intent.EXTRA_TEXT)) {
-            String imdbId = intent.getStringExtra(Intent.EXTRA_TEXT);
-            if (!imdbId.isEmpty()) {
-                loadMovie(imdbId);
-            }
-        }
+		ConnectivityManager connMgr = (ConnectivityManager)	getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+		if (networkInfo != null && networkInfo.isConnected()) {
+			Intent intent = getIntent();
+			if (intent.hasExtra(Intent.EXTRA_TEXT)) {
+				String imdbId = intent.getStringExtra(Intent.EXTRA_TEXT);
+				if (!imdbId.isEmpty()) {
+					loadMovie(imdbId);
+				}
+			}
+		}
+		else {
+			//TODO: fix
+			Toast.makeText(this, "NO INTERNET", Toast.LENGTH_SHORT).show();
+		}
     }
 
     private void loadMovie(String id){
@@ -107,7 +122,12 @@ public class DetailActivity extends AppCompatActivity {
             _binding.metascoreLabel.setVisibility(View.GONE);
         }
 
-        new DownloadImageTask(_binding.posterImage).execute(data.PosterUrl);
+        new DownloadImageTask(this).execute(data.PosterUrl);
+    }
+
+    @Override
+    public void processFinish(Bitmap output) {
+        _binding.posterImage.setImageBitmap(output);
     }
 
 

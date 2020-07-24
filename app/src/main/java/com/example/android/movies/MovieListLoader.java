@@ -1,6 +1,7 @@
 package com.example.android.movies;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.loader.content.AsyncTaskLoader;
@@ -28,6 +29,7 @@ public class MovieListLoader extends AsyncTaskLoader<List<Movie>> {
 	@Nullable
 	@Override
 	public List<Movie> loadInBackground() {
+		Log.e(getClass().getSimpleName(), "loadInBackground() called");
 		if (_query == null || _query.isEmpty()) {
 			return null;
 		}
@@ -36,7 +38,7 @@ public class MovieListLoader extends AsyncTaskLoader<List<Movie>> {
 
 		try {
 			String jsonResponse = NetworkUtilities.getResponseFromHttpUrl(queryURL);
-			return JSONUtilities.parseOmdbSearchJSON(jsonResponse);
+			return JSONUtilities.parseImdbSearchJSON(jsonResponse);
 		}
 		catch (IOException e) {
 			e.printStackTrace();

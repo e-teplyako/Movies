@@ -1,8 +1,8 @@
 package com.example.android.movies;
-
-import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,10 +48,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         return _movies.size();
     }
 
-    public class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        private Context _context;
-
+    public class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, DownloadImageTask.AsyncResponse {
         public TextView _titleTextView;
         public ImageView _posterImageView;
         public TextView _yearTextView;
@@ -65,7 +62,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             _yearTextView = itemView.findViewById(R.id.tv_year);
             _typeImageView = itemView.findViewById(R.id.iv_type);
             _posterImageView = itemView.findViewById(R.id.iv_poster);
-            _context = itemView.getContext();
             _listener = listener;
             itemView.setOnClickListener(this);
         }
@@ -84,7 +80,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
                 _typeImageView.setImageResource(R.drawable.game_art);
             }
             String url = movie.getPosterUrl();
-            new DownloadImageTask((_posterImageView)).execute(url);
+            new DownloadImageTask(this).execute(url);
         }
 
         @Override
@@ -92,6 +88,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             Movie movie = _movies.get(getAdapterPosition());
             String id = movie.getId();
             _listener.OnClick(view, getAdapterPosition(), id);
+        }
+
+        @Override
+        public void processFinish(Bitmap output) {
+            _posterImageView.setImageBitmap(output);
         }
     }
 

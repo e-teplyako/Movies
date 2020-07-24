@@ -57,7 +57,9 @@ public class JSONUtilities {
         return movieDetailsData;
     }
 
-    public static ArrayList<Movie> parseOmdbSearchJSON(String JSONString){
+    public static ArrayList<Movie> parseImdbSearchJSON(String JSONString){
+        if (JSONString == null)
+            return null;
         ArrayList<Movie> movies = new ArrayList<>();
 
         try {

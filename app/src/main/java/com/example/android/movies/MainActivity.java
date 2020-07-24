@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         SearchAdapter.SearchRecyclerViewClickListener listener = new SearchAdapter.SearchRecyclerViewClickListener() {
             @Override
             public void OnClick(View view, int position, String id) {
-                Intent intent = new Intent(view.getContext(), DetailActivity.class);
-                intent.putExtra(Intent.EXTRA_TEXT, id);
+				Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
+				intent.putExtra(Intent.EXTRA_TEXT, id);
                 startActivity(intent);
             }
         };
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 			if (args.getCharSequence(QUERY) != null)
 				query = (String) args.getCharSequence(QUERY);
 		}
-		return new MovieListLoader(this, query);
+		return new MovieListLoader(getApplicationContext(), query);
 	}
 
 	@Override

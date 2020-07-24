@@ -3,21 +3,17 @@ package com.example.android.movies.Utilities;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.widget.ImageView;
-
-import com.example.android.movies.R;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class DownloadImageTask extends AsyncTask <String, Void, Bitmap> {
+public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+    public AsyncResponse _delegate = null;
 
-    private ImageView mImageView;
-
-    public DownloadImageTask(ImageView imageView) {
-        mImageView = imageView;
+    public DownloadImageTask(AsyncResponse delegate) {
+        _delegate = delegate;
     }
 
     @Override
@@ -40,11 +36,10 @@ public class DownloadImageTask extends AsyncTask <String, Void, Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap result) {
-        if (result != null) {
-            mImageView.setImageBitmap(result);
-        }
-        else {
-            mImageView.setImageResource(R.drawable.test_movie_poster);
-        }
+        _delegate.processFinish(result);
+    }
+
+    public interface AsyncResponse {
+        void processFinish(Bitmap output);
     }
 }
