@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setupRecyclerView();
-		getSupportLoaderManager().initLoader(SEARCH_LOADER, null, this);
+		LoaderManager.getInstance(this).initLoader(SEARCH_LOADER, null, this);
     }
 
     private void setupRecyclerView() {
@@ -72,8 +72,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 		_searchView.setOnQueryTextListener(this);
 		_searchView.setQueryHint("Search a movie");
 		_searchView.setSubmitButtonEnabled(true);
-		_searchView.setIconified(false);
-		_searchView.setIconifiedByDefault(false);
 	}
 
 	@Override
