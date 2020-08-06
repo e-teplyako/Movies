@@ -22,4 +22,6 @@
     <string name="rotten_label">Rotten Tomatoes:</string>
     <string name="imdb_label">Imdb:</string>
     <string name="metascore_label">Metascore:</string>
+    <string name="error_message">Error. Check your internet connection and try again.</string>
+    <string name="empty_message">No results found.</string>
 </resources>

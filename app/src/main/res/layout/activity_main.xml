@@ -12,5 +12,13 @@
         android:paddingBottom="100dp"
         android:clipToPadding="false"/>
 
+    <include
+        layout="@layout/error_view"
+        android:visibility="gone"/>
+
+    <include
+        layout="@layout/empty_view"
+        android:visibility="gone"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

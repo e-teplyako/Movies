@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<List<Movie>> {
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private RecyclerView _searchRV;
     private SearchAdapter _adapter;
     private RecyclerView.LayoutManager _layoutManager;
+    private View _errorView;
 
     private SearchView _searchView;
 
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         _searchRV.setLayoutManager(_layoutManager);
         _adapter = new SearchAdapter(null, listener);
         _searchRV.setAdapter(_adapter);
+        _errorView = findViewById(R.id.error_view);
     }
 
 	@Override
@@ -109,8 +112,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 			if (!query.isEmpty()) {
 				loadShowingsData(query);
 			}
-		} else {
-			Toast.makeText(this, "NO INTERNET", Toast.LENGTH_SHORT).show();
+			_searchRV.setVisibility(View.VISIBLE);
+			_errorView.setVisibility(View.GONE);
+		}
+		else {
+			_searchRV.setVisibility(View.GONE);
+			_errorView.setVisibility(View.VISIBLE);
 		}
 		return true;
 	}
